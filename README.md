@@ -8,6 +8,6 @@
  
 **2. 작업 진행 상황**
 
-1. Savant_Convert
+1. savant_convert
 >- Baseball Savant 데이터 다운로더 -> 완성(22.06.23)
 >- Savant to Trackman -> Bearing 컬럼까지 작업 완료(22.06.23~)
