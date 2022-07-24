@@ -477,7 +477,7 @@ for i, j in zip(df_temp['HC_X'], df_temp['HC_Y']):
         
     except:
         bearing.append(np.nan)
-del i, j
+del i, j, a
 
 df_temp['Bearing'] = bearing
 del bearing
@@ -488,6 +488,9 @@ df_temp['HC_X'] = np.sin(np.deg2rad(df_temp['Bearing']))*df_temp['Distance']
 df_temp['HC_Y'] = np.cos(np.deg2rad(df_temp['Bearing']))*df_temp['Distance']
 print('26. 타구 좌표 계산 완료')
 
+# 체감구속(EffectiveVelo) 단위 변환
+df_temp['EffectiveVelo'] = df_temp['effective_speed']*1.60934
+print('27. EffectiveVelo 컬럼 단위 변환 완료')
 
 # """
 res_temp = df_temp[['PitchNo', 'game_date', 'Time', 'PAofInning',
@@ -505,6 +508,7 @@ res_temp = df_temp[['PitchNo', 'game_date', 'Time', 'PAofInning',
                     'VertBreak', 'InducedVertBreak', 'HorzBreak',
                     'PlateLocHeight', 'PlateLocSide', 'ExitSpeed', 
                     'Angle', 'Distance', 'Bearing',
-                    'HC_X', 'HC_Y']]
+                    'HC_X', 'HC_Y', 'EffectiveVelo',
+                    ]]
 # """
 # temp=res_temp[res_temp.game_date=='2022-06-26']
