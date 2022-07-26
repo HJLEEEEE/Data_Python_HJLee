@@ -75,9 +75,9 @@ def savant_downloader(first_day = '2022-04-07'):
                 
                 # 파일명 변경
                 try:
-                    file_oldname = os.path.join('./data', 'savant_data.csv')
+                    file_oldname = os.path.join('C:/Users/dlghw/Desktop/python_study/savant_convert/data', 'savant_data.csv')
                     date = i.replace('-','')
-                    file_newname = os.path.join('./data', f'savant_data_{date}.csv')
+                    file_newname = os.path.join('C:/Users/dlghw/Desktop/python_study/savant_convert/data', f'savant_data_{date}.csv')
                     try:
                         os.rename(file_oldname, file_newname)
                         print(f'{i} 데이터 파일명 변경 완료')
@@ -89,9 +89,9 @@ def savant_downloader(first_day = '2022-04-07'):
                 except:
                     try:
                         time.sleep(5)
-                        file_oldname = os.path.join('./data', 'savant_data.csv')
+                        file_oldname = os.path.join('C:/Users/dlghw/Desktop/python_study/savant_convert/data', 'savant_data.csv')
                         date = i.replace('-','')
-                        file_newname = os.path.join('./data', f'savant_data_{date}.csv')
+                        file_newname = os.path.join('C:/Users/dlghw/Desktop/python_study/savant_convert/data', f'savant_data_{date}.csv')
                         try:
                             os.rename(file_oldname, file_newname)
                             print(f'{i} 데이터 파일명 변경 완료')
