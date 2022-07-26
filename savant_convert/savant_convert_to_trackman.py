@@ -504,7 +504,7 @@ def savant_convert():
         
     del i, j, k
     
-    df_temp['GameUID'] = uid   
+    df_temp['PitchUID'] = uid   
     del uid
     print('28. GameID, GameUID 컬럼 생성 완료')
     
