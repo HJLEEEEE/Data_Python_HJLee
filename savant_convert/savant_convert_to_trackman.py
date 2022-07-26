@@ -492,6 +492,21 @@ def savant_convert():
     df_temp['EffectiveVelo'] = df_temp['effective_speed']*1.60934
     print('27. EffectiveVelo 컬럼 단위 변환 완료')
     
+    # 게임 아이디(서번트의 game_pk 인용), 피치UID 간이생성
+    
+    df_temp['GameID'] = df_temp['game_pk']
+    
+    # PitchUID는 날짜-게임아이디-피치넘버 조합으로 생성
+    
+    uid = []
+    for i, j, k in zip(df_temp.game_date, df_temp.game_pk, df_temp.PitchNo):
+        uid.append(f'{i}_{j}_{k}')
+        
+    del i, j, k
+    
+    df_temp['GameUID'] = uid   
+    del uid
+    print('28. GameID, GameUID 컬럼 생성 완료')
     
     # 결과 컬럼 선택
     res_temp = df_temp[['PitchNo', 'game_date', 'Time', 'PAofInning',
@@ -509,7 +524,7 @@ def savant_convert():
                         'VertBreak', 'InducedVertBreak', 'HorzBreak',
                         'PlateLocHeight', 'PlateLocSide', 'ExitSpeed', 
                         'Angle', 'Distance', 'Bearing',
-                        'HC_X', 'HC_Y', 'EffectiveVelo'
+                        'HC_X', 'HC_Y', 'EffectiveVelo', 'GameID', 'PitchUID'
                         ]]
     
     # 컬럼명 변경
@@ -522,10 +537,10 @@ def savant_convert():
                                    'balls':'Balls',
                                    'strikes':'Strikes',
                                    })
-    print('28. 컬럼명 전체 트랙맨 스타일로 변경 완료')
+    print('29. 컬럼명 전체 트랙맨 스타일로 변경 완료')
     
     res.to_csv(f'./total/savant_to_trackman_{today}.csv',index=False, encoding='utf-8')
-    print('29. 변환 파일 csv 저장 완료')
+    print('30. 변환 파일 csv 저장 완료')
 
     return res
 
