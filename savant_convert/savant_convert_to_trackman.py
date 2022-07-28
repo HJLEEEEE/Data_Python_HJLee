@@ -28,9 +28,48 @@ def savant_convert():
     
     today = datetime.today().strftime('%Y%m%d')
     df = df.dropna(subset=['game_pk'])
+    df = df.rename(columns = {'pitcher.1':'pitcher_1',
+                              'fielder_2.1':'fielder_2_1'})
+
     df.to_csv(f'./total/savant_total_{today}.csv', index=False, encoding='utf-8-sig')
     
-    print('1. 데이터 합치기 완료')
+    kv = []
+    for i, j, k in zip(df.game_pk, df.at_bat_number, df.pitch_number):
+        kv.append(f'{i}-{j}-{k}')
+    del i, j, k
+    df['kv'] = kv
+    del kv
+    df.loc[df['events'] != df['events'], 'events'] = ''
+    df = df.fillna(0)
+    df = df.astype({'on_3b':int,
+                    'on_2b':int,
+                    'on_1b':int})    
+    tp = [tuple(x) for x in df.values]
+    
+    import pymysql
+    conn = pymysql.connect(host='localhost',
+                           user='root',
+                           password='ghwnd128',
+                           db='baseball'
+                           )
+    
+    cursor = conn.cursor()
+    a = len(tp)
+    
+    for i, j in zip(tp, range(len(tp))):
+        
+        try:
+            cursor.execute(f'''INSERT INTO savant_raw VALUES {i}''')
+            conn.commit()
+        except:
+            pass
+
+        print(f'{j}/{a} DB 업로드 완료')
+    conn.close()
+    del a, i, j
+    
+    print('1. 데이터 합치기 및 DB 업로드 완료')
+    
     
     # 날짜, 게임, 피치넘버순 정렬
     df_temp = df.sort_values(by=['game_date','game_pk','at_bat_number','pitch_number']).reset_index(drop=True)
