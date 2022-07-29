@@ -479,7 +479,7 @@ def savant_convert(db = 'on'):
     
     # RelHeight, RelSide, Extension 단위 변환
     df_temp['RelHeight'] = df_temp['release_pos_z']*0.3048
-    df_temp['RelSide'] = df_temp['release_pos_x']*0.3048
+    df_temp['RelSide'] = df_temp['release_pos_x']*-0.3048
     df_temp['Extension'] = df_temp['release_extension']*0.3048
     
     print('20. RelHeight/Side/Extension 단위변환 완료')
@@ -591,7 +591,7 @@ def savant_convert(db = 'on'):
 
     return res
 
-res = savant_convert(db = 'off')
+res = savant_convert(db = 'on')
 
 def convert_db_upload(res = res):
     tp = [tuple(x) for x in res.values]
@@ -617,3 +617,4 @@ def convert_db_upload(res = res):
         print(f'{j}/{a} DB 업로드 완료')
     conn.close()    
     del a, i, j
+convert_db_upload(res=res)
