@@ -588,8 +588,6 @@ def savant_convert(db = 'on'):
     
     res.to_csv(f'./total/savant_to_trackman_{today}.csv',index=False, encoding='utf-8')
     print('30. 변환 파일 csv 저장 완료')
-    
-    tp = [tuple ]
 
     return res
 
@@ -617,5 +615,5 @@ def convert_db_upload(res = res):
             pass
     
         print(f'{j}/{a} DB 업로드 완료')
-    conn.close()
+    conn.close()    
     del a, i, j
