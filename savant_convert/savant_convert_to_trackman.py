@@ -6,7 +6,9 @@ Savant data convert to Trackman Style
 
 @author: Hojoong Lee
 """
-def savant_convert():
+# db = 'on' -> db 업로드 작업도 진행, db ='off' -> db 업로드 진행x
+
+def savant_convert(db = 'on'):
     # 데이터 불러오기 및 합치기
     import pandas as pd
     import numpy as np
@@ -44,33 +46,38 @@ def savant_convert():
     df = df.astype({'on_3b':int,
                     'on_2b':int,
                     'on_1b':int})    
-    tp = [tuple(x) for x in df.values]
     
-    import pymysql
-    conn = pymysql.connect(host='localhost',
-                           user='root',
-                           password='ghwnd128',
-                           db='baseball'
-                           )
-    
-    cursor = conn.cursor()
-    a = len(tp)
-    
-    for i, j in zip(tp, range(len(tp))):
+    if db == 'on':
+        tp = [tuple(x) for x in df.values]
         
-        try:
-            cursor.execute(f'''INSERT INTO savant_raw VALUES {i}''')
-            conn.commit()
-        except:
-            pass
-
-        print(f'{j}/{a} DB 업로드 완료')
-    conn.close()
-    del a, i, j
+        import pymysql
+        conn = pymysql.connect(host='localhost',
+                               user='root',
+                               password='ghwnd128',
+                               db='baseball'
+                               )
+        
+        cursor = conn.cursor()
+        a = len(tp)
+        
+        for i, j in zip(tp, range(len(tp))):
+            
+            try:
+                cursor.execute(f'''INSERT INTO savant_raw VALUES {i}''')
+                conn.commit()
+            except:
+                pass
     
-    print('1. 데이터 합치기 및 DB 업로드 완료')
+            print(f'{j}/{a} DB 업로드 완료')
+        conn.close()
+        del a, i, j
     
+        print('1. 데이터 합치기 및 DB 업로드 완료')
     
+    else:
+        print('1. 데이터 합치기 완료')
+        
+       
     # 날짜, 게임, 피치넘버순 정렬
     df_temp = df.sort_values(by=['game_date','game_pk','at_bat_number','pitch_number']).reset_index(drop=True)
     
@@ -560,10 +567,10 @@ def savant_convert():
                         'RelSpeed', 'VertRelAngle', 'HorzRelAngle', 
                         'SpinRate', 'SpinAxis', 'Tilt',
                         'RelHeight', 'RelSide', 'Extension', 
-                        'VertBreak', 'InducedVertBreak', 'HorzBreak',
-                        'PlateLocHeight', 'PlateLocSide', 'ExitSpeed', 
-                        'Angle', 'Distance', 'Bearing',
-                        'HC_X', 'HC_Y', 'EffectiveVelo', 'GameID', 'PitchUID'
+                        'InducedVertBreak', 'HorzBreak', 'PlateLocHeight', 
+                        'PlateLocSide', 'ExitSpeed', 'Angle', 
+                        'Distance', 'Bearing', 'HC_X', 
+                        'HC_Y', 'EffectiveVelo', 'GameID', 'PitchUID'
                         ]]
     
     # 컬럼명 변경
@@ -575,12 +582,40 @@ def savant_convert():
                                    'outs_when_up':'Outs',
                                    'balls':'Balls',
                                    'strikes':'Strikes',
+                                   'Top/Bottom':'Top_Bottom'
                                    })
     print('29. 컬럼명 전체 트랙맨 스타일로 변경 완료')
     
     res.to_csv(f'./total/savant_to_trackman_{today}.csv',index=False, encoding='utf-8')
     print('30. 변환 파일 csv 저장 완료')
+    
+    tp = [tuple ]
 
     return res
 
-savant_convert()
+res = savant_convert(db = 'off')
+
+def convert_db_upload(res = res):
+    tp = [tuple(x) for x in res.values]
+    
+    import pymysql
+    conn = pymysql.connect(host='localhost',
+                           user='root',
+                           password='ghwnd128',
+                           db='baseball'
+                           )
+    
+    cursor = conn.cursor()
+    a = len(tp)
+    
+    for i, j in zip(tp, range(len(tp))):
+        
+        try:
+            cursor.execute(f'''INSERT INTO savant_convert VALUES {i}''')
+            conn.commit()
+        except:
+            pass
+    
+        print(f'{j}/{a} DB 업로드 완료')
+    conn.close()
+    del a, i, j
