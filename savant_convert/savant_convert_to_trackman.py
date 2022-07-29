@@ -219,12 +219,12 @@ def savant_convert(db = 'on'):
     # PitcherSet 컬럼 생성
     
     pset = []
-    df_temp.on_1b = df_temp.on_1b.fillna('')
-    df_temp.on_2b = df_temp.on_2b.fillna('')
-    df_temp.on_3b = df_temp.on_3b.fillna('')
+    # df_temp.on_1b = df_temp.on_1b.fillna(0)
+    # df_temp.on_2b = df_temp.on_2b.fillna(0)
+    # df_temp.on_3b = df_temp.on_3b.fillna(0)
     
     for i, j, k in zip(df_temp.on_1b, df_temp.on_2b, df_temp.on_3b):
-        if i == '' and j == '' and k == '':
+        if i == 0 and j == 0 and k == 0:
             pset.append('Windup')
         else:
             pset.append('Stretch')
