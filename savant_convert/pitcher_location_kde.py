@@ -6,7 +6,7 @@ Created on Sun Jul 31 15:06:09 2022
 """
 
 # 투수 구종별 로케이션(kde plot)
-def pitcher_location_kde(pid):
+def pitcher_location_kde(pid, split='all'):
     import pandas as pd
     import seaborn as sns
     import matplotlib.pyplot as plt
@@ -14,9 +14,16 @@ def pitcher_location_kde(pid):
     import matplotlib.patches as patches
     
     conn = db_connection()
-    
-    temp = pd.read_sql_query(f'''SELECT * FROM savant_convert WHERE PitcherId = {pid}''', conn)
-    conn.close()
+    if split =='all':
+        temp = pd.read_sql_query(f'''SELECT * FROM savant_convert WHERE PitcherId = {pid}''', conn)
+        conn.close()
+    elif split == 'left':
+        temp = pd.read_sql_query(f'''SELECT * FROM savant_convert WHERE PitcherId = {pid} AND BatterSide = 'Left' ''', conn)
+        conn.close()
+    elif split == 'right':
+        temp = pd.read_sql_query(f'''SELECT * FROM savant_convert WHERE PitcherId = {pid} AND BatterSide = 'Right' ''', conn)
+        conn.close()        
+        
     ptypes = temp.AutoPitchType.drop_duplicates().to_list()
     name = temp.Pitcher[0]
     
@@ -34,7 +41,7 @@ def pitcher_location_kde(pid):
         plt.xticks([-0.7,-0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7])
         plt.ylim(0.0,1.4)
         plt.yticks([.0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1.0,1.1,1.2,1.3,1.4])
-        plt.title(f'{name}_{i}')
+        plt.title(f'{name}_{i}_vs_{split}')
         kde.add_patch(
             patches.Rectangle((-0.216,0.5), 
                               0.4318, 
@@ -44,4 +51,4 @@ def pitcher_location_kde(pid):
                               lw=1))
         plt.show()
         
-pitcher_location_kde(pid=660271)
+pitcher_location_kde(pid=660271, split='left')
