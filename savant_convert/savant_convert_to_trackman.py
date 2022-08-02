@@ -493,7 +493,7 @@ def savant_convert(db = 'on'):
     
     # 로케이션 컬럼 단위 변환
     df_temp['PlateLocHeight'] = df_temp['plate_z']*0.3048
-    df_temp['PlateLocSide'] = df_temp['plate_x']*0.3048 
+    df_temp['PlateLocSide'] = df_temp['plate_x']*-0.3048 
     
     print('22. PlateLocHeight/ Side 컬럼 단위 변환 완료')
     
