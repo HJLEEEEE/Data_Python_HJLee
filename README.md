@@ -8,12 +8,12 @@
  
 **2. 작업 진행 상황**
 
-1. savant_convert
+**1. savant_convert**
 >- Baseball Savant 데이터 다운로더 -> 완성(22.06.23)
 >- Savant to Trackman -> Bearing 컬럼까지 작업 완료(22.07.29)
 
-2. pitcher_summary
+**2. pitcher_summary**
 >- 선택한 투수의 구종별 평균 데이터 정리(22.07.29 ~)
 
-3. pitcher_location_kde
+**3. pitcher_location_kde**
 >- 선택한 투수의 구종별 로케이션 kde차트 그려주는 함수(22.07.31~, 시점선택 인풋값 작업까지 완료)
