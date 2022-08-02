@@ -6,7 +6,7 @@ Created on Sun Jul 31 15:06:09 2022
 """
 
 # 투수 구종별 로케이션(kde plot)
-def pitcher_location_kde(pid, split='all'):
+def pitcher_location_kde(pid, split='all', perspective='pitcher'):
     import pandas as pd
     import seaborn as sns
     import matplotlib.pyplot as plt
@@ -39,9 +39,11 @@ def pitcher_location_kde(pid, split='all'):
         
         plt.xlim(-0.7, 0.7)
         plt.xticks([-0.7,-0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7])
+        if perspective == 'catcher':
+            kde.invert_xaxis()
         plt.ylim(0.0,1.4)
         plt.yticks([.0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1.0,1.1,1.2,1.3,1.4])
-        plt.title(f'{name}_{i}_vs_{split}')
+        plt.title(f'{name}_{i}_vs {split}')
         kde.add_patch(
             patches.Rectangle((-0.216,0.5), 
                               0.4318, 
@@ -51,4 +53,4 @@ def pitcher_location_kde(pid, split='all'):
                               lw=1))
         plt.show()
         
-pitcher_location_kde(pid=660271, split='left')
+pitcher_location_kde(pid=660271, split='all', perspective='pitcher')
