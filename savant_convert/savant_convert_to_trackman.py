@@ -487,7 +487,7 @@ def savant_convert(db = 'on'):
     # 무브먼트 컬럼 단위변환(인치 to 센치)
     df_temp['VertBreak'] = float(0)
     df_temp['InducedVertBreak'] = df_temp['pfx_z']*30.48
-    df_temp['HorzBreak'] = df_temp['pfx_x']*30.48
+    df_temp['HorzBreak'] = df_temp['pfx_x']*-30.48
     
     print('21. Break 컬럼 단위변환 완료')
     
