@@ -15,7 +15,7 @@ def pitcher_movement_scatter(pid, perspective='pitcher'):
     conn = db_connection()
     temp = pd.read_sql_query(f'''SELECT * FROM savant_convert WHERE PitcherId = {pid}''', conn)
     conn.close()
-    
+    name = temp.Pitcher[0]
     colors = {'Slider' : 'green', 
               'Curveball' : 'orange', 
               'Four-Seam' : 'red', 
@@ -34,6 +34,7 @@ def pitcher_movement_scatter(pid, perspective='pitcher'):
     plt.axhline(y=0, color='grey',linewidth=1, alpha=.5)
     plt.axvline(x=0, color='grey',linewidth=1, alpha=.5)
     plt.axis([-70,70,-70,70])
+    plt.title(f'{name}_movement by pitch type')
     if perspective=='catcher':
         movement.invert_xaxis()
     
