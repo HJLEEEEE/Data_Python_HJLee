@@ -33,7 +33,7 @@ def pitcher_inplay_spray(pid, split='all'):
     temp = temp[(temp.PitchCall=='InPlay')&(temp.HC_Y!=0)]
     
     
-    spary = plt.subplot()
+    # spary = plt.subplot()
     plt.rcParams['figure.figsize'] = [16,14]
     spray1 = sns.scatterplot(x='HC_X', 
                              y='HC_Y',
@@ -93,6 +93,7 @@ def pitcher_inplay_spray(pid, split='all'):
              lw=2, 
              linestyle='solid')
     plt.title(f'{name} vs {split} spary chart')
+    
 pid = 660271
 split = 'all'
 
