@@ -29,7 +29,9 @@ def pitcher_inplay_spray(pid, split='all'):
         temp = pd.read_sql_query(f'''SELECT * FROM savant_convert WHERE PitcherId = {pid} AND BatterSide = 'Right' ''', conn)
         conn.close()
         
+    name = temp.Pitcher[0]  
     temp = temp[(temp.PitchCall=='InPlay')&(temp.HC_Y!=0)]
+    
     
     spary = plt.subplot()
     plt.rcParams['figure.figsize'] = [16,14]
@@ -90,7 +92,7 @@ def pitcher_inplay_spray(pid, split='all'):
              color='brown', 
              lw=2, 
              linestyle='solid')
-
+    plt.title(f'{name} vs {split} spary chart')
 pid = 660271
 split = 'all'
 
