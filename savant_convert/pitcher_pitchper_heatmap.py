@@ -7,7 +7,7 @@ Created on Tue Aug  9 20:54:58 2022
 
 # 투수 기준 스트라이크존 히트맵
 
-def pitcher_pitchper_heatmap(pid, split='all', perspective='pitcher'):
+def pitcher_pitchper_heatmap(pid, split='all', perspective='pitcher', ptype='all'):
     
     import pandas as pd
     import seaborn as sns
@@ -30,7 +30,11 @@ def pitcher_pitchper_heatmap(pid, split='all', perspective='pitcher'):
         
     if perspective == 'catcher':
         temp['PlateLocSide'] = temp['PlateLocSide']*-1
-    name = temp.Pitcher[0]
+        
+    if ptype != 'all':
+        temp = temp[temp.AutoPitchType==ptype].reset_index(drop=True)
+        
+    name = temp.Pitcher[0].split(',')[1][1]+'.'+temp.Pitcher[0].split(',')[0]
     
     # 히트맵 생성을 위한 존 위치 컬럼 세팅
     
@@ -50,8 +54,16 @@ def pitcher_pitchper_heatmap(pid, split='all', perspective='pitcher'):
         elif (temp['PlateLocSide'][i]>=0.072) and (temp['PlateLocSide'][i]<=0.216):
              
             side = 'Right'
-      
-        elif (temp['PlateLocHeight'][i]>=0.833) and (temp['PlateLocHeight'][i]<=1.0):
+                        
+        else:
+            
+            side ='S99'
+        
+        zone_side.append(side)
+
+    for i in range(len(temp)):
+        
+        if (temp['PlateLocHeight'][i]>=0.833) and (temp['PlateLocHeight'][i]<=1.0):
             
             height = 'High'
         
@@ -62,14 +74,12 @@ def pitcher_pitchper_heatmap(pid, split='all', perspective='pitcher'):
         elif (temp['PlateLocHeight'][i]>=0.5) and (temp['PlateLocHeight'][i]<=0.666):
     
             height = 'Low'
-            
-        else:
-            
-            side ='S99'
-            height='S99'
         
-        zone_height.append(height)
-        zone_side.append(side)
+        else:
+
+            height = 'S99'
+
+        zone_height.append(height)  
     
     temp1 = pd.DataFrame()
        
@@ -86,6 +96,7 @@ def pitcher_pitchper_heatmap(pid, split='all', perspective='pitcher'):
     count['percentage'] = round(count.ptype/count.ptype.sum()*100, 1)
     temp2 = count.pivot('zone_height','zone_side','percentage')
     temp2 = pd.DataFrame(data=temp2, index = array1, columns = array2)
+    temp2 = temp2.fillna(0.0)
     
     # 컬러맵 세팅(darkblue~red)
     from matplotlib.colors import LinearSegmentedColormap
@@ -101,9 +112,11 @@ def pitcher_pitchper_heatmap(pid, split='all', perspective='pitcher'):
                 annot_kws={"size":10,"color":'black'},
                 linewidths=3,
                 fmt='.1f')
-    plt.title(f'{name}_pitch% heatmap',fontsize=10)
+    plt.title(f'{name}_{ptype}_pitch%_vs {split}_{perspective} view',fontsize=10)
 
-pid=660271
-split='right'
+pid = 518876
+split='left'
 perspective = 'catcher'
-pitcher_pitchper_heatmap(pid=pid, split=split, perspective='catcher')
+ptype = 'Changeup'
+
+pitcher_pitchper_heatmap(pid=pid, split=split, perspective='catcher', ptype=ptype)
