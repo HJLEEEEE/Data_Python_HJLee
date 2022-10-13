@@ -171,3 +171,27 @@ def table_create_convert():
                      GameID VARCHAR(255), 
                      PitchUID VARCHAR(255))''')
     db_connection().close()
+
+def table_create_player_info():
+    
+    cursor = db_connection().cursor()
+    cursor.execute('''CREATE TABLE player_info
+                    (SEASON INT,
+                    TEAMID INT,
+                    FIRSTNAME VARCHAR(255),
+                    LASTNAME VARCHAR(255),
+                    POS VARCHAR(255),
+                    PITCHHAND VARCHAR(255),
+                    BATSIDE VARCHAR(255),
+                    JERSEY INT,
+                    ACTIVE VARCHAR(255),
+                    PLAYERID INT,
+                    HEIGHT INT,
+                    WEIGHT INT,
+                    BIRTHDATE VARCHAR(255),
+                    HOMETOWN VARCHAR(255),
+                    HOMESTATE VARCHAR(255),
+                    INDATE VARCHAR(255),
+                    D_YEAR INT,
+                    INPUTTIME VARCHAR(255))''')
+    db_connection().close()
