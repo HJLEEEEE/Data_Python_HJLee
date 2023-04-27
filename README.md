@@ -1,8 +1,7 @@
 # Data_Python_HJLee
-**Kaggle**
->- kaggle 문제 풀이 폴더
->- kaggle 문제들을 풀면서 짠 코드들을 정리
->
+**DataProjects**
+>- kaggle 문제, 평소 관심있던 분야에 대한 분석 등 데이터 관련 개인 프로젝트 수행 시 관련 코드를 올릴 예정
+
 **Baseball**
 
 **1. Commit 머릿말 규칙**
